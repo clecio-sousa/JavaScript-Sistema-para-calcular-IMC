@@ -1,12 +1,13 @@
 //1ª FORMA
+
 console.log(document.querySelector(".titulo")); 
 var pacientes = document.querySelectorAll(".paciente");//SELECIONA TODOS DA CLASSE PACIENTE
 //querySelector PERMITE BUSCAR TAGS NO HTML
 
 //2ª FORMA
-var titulo = document.querySelector(".titulo");
-console.log(titulo.textContent);//IMPRIME O CONTEUDO DA VARIAVEL TITULO
-titulo.textContent = "Aparecida Nutricionista"; // ALTERA O CONTEUDO DA VAR TITULO
+//var titulo = document.querySelector(".titulo");
+//console.log(titulo.textContent);//IMPRIME O CONTEUDO DA VARIAVEL TITULO
+//titulo.textContent = "Consultório de Nutrição"; // ALTERA O CONTEUDO DA VAR TITULO
 
 
 for(i = 0; i< pacientes.length; i++){
@@ -22,39 +23,39 @@ for(i = 0; i< pacientes.length; i++){
 	//CALCULANDO IMC
 	var tdImc = paciente.querySelector(".info-imc");
 
-	var pesoEhValido = true;
-	var alturaEhValida = true;
+	var pesoEhValido = validaPeso(peso);
+	var alturaEhValida = validaAltura(altura);
 
 	//	CONDICAO DO PESO
-	if (peso < 0 || peso > 1000){
-		tdImc.textContent = "Peso Invalido";
+	if (!pesoEhValido){
+		console.log("Peso inválido")
 		pesoEhValido = false;
+		tdImc.textContent = "Peso inválido";
 		paciente.classList.add("paciente-invalido");
 	}
 
 	//	CONDICAO DA ALTURA
-	if(altura < 0 || altura >= 3.00){
-		tdImc.textContent = "Altura invalida";
+	if(!alturaEhValida){
+		console.log("Altura invalida");
 		alturaEhValida = false;
+		tdImc.textContent = "Altura inválida";
 		paciente.classList.add("paciente-invalido");
 	}
 
-	//	CONDICAO DO PESO E ALTURA
-	if((altura <= 0 || altura >= 3.00) && (peso <= 0 || peso >= 1000)){
-		tdImc.textContent = "Altura e peso invalido";
-		alturaEhValida = false;
-		pesoEhValido = false;
-		paciente.classList.add("paciente-invalido");
+	//CONDICAO DO PESO E ALTURA
+	if(alturaEhValida && pesoEhValido){
+		var imc = calculaImc(peso, altura);
+		tdImc.textContent = imc;
 		
 	}
 
-	if (pesoEhValido && alturaEhValida){
+	/*if (pesoEhValido && alturaEhValida){
 		
 		var imc = calculaImc(peso, altura);
 		tdImc.textContent = imc;
 
 		//CONDICAO DO IMC DE ACORDO COM A TABELA
-		/*if (imc >=18.5 && imc <=24.99){
+		if (imc >=18.5 && imc <=24.99){
 			tdImc.textContent = imc + " -- Normal";
 			paciente.classList.add("paciente-normal");// CRIANDO UMA NOVA CLASSE PRA SER USADA NO CSS
 
@@ -73,8 +74,8 @@ for(i = 0; i< pacientes.length; i++){
 		else if(imc >=35){
 				tdImc.textContent = imc + " -- obesidade severa";
 				paciente.classList.add("paciente-obesidade-severa");
-			}*/
-		}
+			}
+		}*/
 }
 
 function calculaImc(peso, altura){
@@ -82,7 +83,23 @@ function calculaImc(peso, altura){
 	imc = peso /(altura * altura);	
 
 	return imc.toFixed(1);
-
 }
 
+function validaPeso(peso){
+	
+	if (peso >=0 && peso<=1000) {
+		return true;		
+	} else {
+		return false;
+	}
+}
+
+function validaAltura(altura) {
+	if(altura >=0 && altura <=3.0){
+		return true;
+	} else{
+		return false;
+	}
+	
+}
 
